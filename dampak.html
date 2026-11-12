@@ -1,0 +1,1323 @@
+<!doctype html>
+<html lang="id" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dampak - Green Earth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              ink: "#111111",
+              "sage-mist": "#A9B8A1",
+              forestmoss: "#33564D",
+              deeppine: "#112B29",
+              warmstone: "#B8A58D",
+              linen: "#E8E1D5",
+              snow: "#F6F5EE",
+
+              daun: {
+                tua: "#1F570F",
+                DEFAULT: "#3EAD1F",
+                muda: "#71E052",
+                pucat: "#B8F0A8",
+              },
+
+              background: "var(--background)",
+              foreground: "var(--foreground)",
+              primary: "var(--primary)",
+              "primary-foreground": "var(--primary-foreground)",
+            },
+          },
+        },
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /*Animasi Api*/
+      @keyframes naikkanApi {
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-180px) scale(0);
+          opacity: 0;
+        }
+      }
+      .api {
+        position: absolute;
+        bottom: 0;
+        border-radius: 50%;
+        background: #f97316;
+        box-shadow:
+          0 0 15px #f97316,
+          0 0 30px #ef4444;
+        animation: naikkanApi 3s infinite ease-in;
+      }
+
+      /*JedagJedug*/
+      @keyframes JedugTombol {
+        0% {
+          transform: scale(1);
+          box-shadow: 0 0 0 0 rgba(16, 185, 24, 0.7);
+        }
+        50% {
+          transform: scale(1.05);
+          box-shadow: 0 0 0 15px rgba(16, 185, 24, 0);
+        }
+        100% {
+          transform: scale(1);
+          box-shadow: 0 0 0 0 rgba(16, 185, 24, 0);
+        }
+      }
+
+      /*Asap agak gagal*/
+      @keyframes asapGatau {
+        0% {
+          transform: translateY(0) translateX(0) scale(1);
+          opacity: 0;
+        }
+        20% {
+          opacity: 0.6;
+        }
+        50% {
+          transform: translateY(-150px) translateX(40px) scale(1.5)
+            rotate(15deg);
+          opacity: 0.4;
+        }
+        100% {
+          transform: translateY(-400px) translateX(-20px) scale(2.5)
+            rotate(-10deg);
+          opacity: 0;
+        }
+      }
+
+      .asap {
+        position: absolute;
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgba(156, 163, 175, 0.4) 0%,
+          rgba(75, 85, 99, 0.2) 40%,
+          transparent 70%
+        );
+        filter: blur(20px);
+        animation: asapGatau 8s infinite alternate ease-in-out;
+      }
+      .kabut-merah {
+        background: linear-gradient(
+          to top,
+          rgba(205, 52, 13, 0.8),
+          transparent
+        );
+        backdrop-filter: blur(5px);
+      }
+
+      .btn-denyut {
+        animation: JedugTombol 2s infinite;
+      }
+
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        transition:
+          background-color 0.3s,
+          color 0.3s;
+      }
+
+      .parent {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        grid-template-rows: repeat(6, 1fr);
+        gap: 10px;
+      }
+
+      .div1 {
+        grid-column: span 3 / span 3;
+        grid-row: span 6 / span 6;
+      }
+
+      .scroll-progress-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: transparent;
+        z-index: 1002;
+        pointer-events: none;
+      }
+      .scroll-progress-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--accent), #74c69d);
+        box-shadow: 0 0 10px var(--accent-glow);
+        transition: width 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      :root {
+        --accent: #1f570f;
+        --accent-light: rgba(31, 87, 15, 0.12);
+        --accent-glow: rgba(31, 87, 15, 0.28);
+        --on-accent: #ffffff;
+        --glass-border: rgba(255, 255, 255, 0.45);
+        --glass-bg-strong: rgba(255, 255, 255, 0.88);
+        --nav-bg: rgba(255, 255, 255, 0.75);
+        --text-primary: #1a1a1a;
+        --text-secondary: #555555;
+        --text-muted: #777777;
+        --counter-bg: rgba(31, 87, 15, 0.08);
+      }
+      .dark {
+        --accent: #71e052;
+        --accent-light: rgba(113, 224, 82, 0.14);
+        --accent-glow: rgba(113, 224, 82, 0.32);
+        --on-accent: #0a2a05;
+        --glass-border: rgba(255, 255, 255, 0.09);
+        --glass-bg-strong: rgba(20, 26, 23, 0.9);
+        --nav-bg: rgba(12, 16, 14, 0.78);
+        --text-primary: #f0f3f1;
+        --text-secondary: #a8b0ac;
+        --text-muted: #6e7672;
+        --counter-bg: rgba(113, 224, 82, 0.09);
+      }
+
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 50;
+        height: 70px;
+        padding: 0 clamp(1.2rem, 4vw, 3rem);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--nav-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--glass-border);
+        transition:
+          background 0.4s,
+          box-shadow 0.4s,
+          height 0.3s;
+      }
+      .navbar.scrolled {
+        background: var(--glass-bg-strong);
+        height: 64px;
+        box-shadow: 0 4px 28px rgba(0, 0, 0, 0.08);
+      }
+      .nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+        font-weight: 800;
+        font-size: 1.35rem;
+        letter-spacing: -0.5px;
+        color: var(--accent);
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .nav-brand:hover {
+        transform: scale(1.03);
+      }
+      .nav-brand i {
+        filter: drop-shadow(0 2px 6px var(--accent-glow));
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 2.2rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .nav-link {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 0;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-decoration: none;
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        width: 0;
+        height: 2.5px;
+        border-radius: 4px;
+        background: var(--accent);
+        transition: width 0.35s ease;
+      }
+      .nav-link:hover,
+      .nav-link.active,
+      .nav-dropdown:hover .nav-link {
+        color: var(--accent);
+      }
+      .nav-link:hover::after,
+      .nav-link.active::after {
+        width: 100%;
+      }
+
+      .nav-dropdown {
+        position: relative;
+      }
+      .nav-dropdown-arrow {
+        font-size: 0.72rem;
+        transition: transform 0.35s ease;
+      }
+      .nav-dropdown:hover .nav-dropdown-arrow {
+        transform: rotate(180deg);
+      }
+      .nav-dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        min-width: 320px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 12px;
+        background: var(--glass-bg-strong);
+        backdrop-filter: blur(28px);
+        -webkit-backdrop-filter: blur(28px);
+        border: 1px solid var(--glass-border);
+        border-radius: 22px;
+        box-shadow: 0 20px 48px rgba(0, 0, 0, 0.22);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateX(-50%) translateY(14px) scale(0.96);
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease,
+          visibility 0.3s ease;
+      }
+      .nav-dropdown-menu::before {
+        content: "";
+        position: absolute;
+        top: -16px;
+        left: 0;
+        right: 0;
+        height: 16px;
+      }
+      .nav-dropdown:hover .nav-dropdown-menu,
+      .nav-dropdown:focus-within .nav-dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(8px) scale(1);
+      }
+      .nav-dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        border-radius: 14px;
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: all 0.25s ease;
+      }
+      .nav-dropdown-item:hover {
+        background: var(--accent-light);
+        transform: translateX(4px);
+      }
+      .dropdown-item-icon {
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: var(--counter-bg);
+        color: var(--accent);
+        transition: all 0.25s ease;
+      }
+      .nav-dropdown-item:hover .dropdown-item-icon {
+        background: var(--accent);
+        color: var(--on-accent);
+      }
+      .dropdown-item-title {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 700;
+        line-height: 1.3;
+      }
+      .dropdown-item-desc {
+        display: block;
+        font-size: 0.74rem;
+        color: var(--text-muted);
+        line-height: 1.25;
+      }
+
+      .theme-toggle {
+        width: 58px;
+        height: 30px;
+        padding: 0 4px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        background: var(--accent-light);
+        border: 1.5px solid var(--glass-border);
+        border-radius: 999px;
+      }
+      .toggle-knob {
+        width: 22px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 11px;
+        background: var(--accent);
+        color: var(--on-accent);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.45s cubic-bezier(0.68, -0.15, 0.27, 1.15);
+      }
+      .dark .toggle-knob {
+        transform: translateX(26px);
+      }
+
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        padding: 6px;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+      .hamburger span {
+        display: block;
+        width: 24px;
+        height: 2.5px;
+        border-radius: 3px;
+        background: var(--text-primary);
+        transition:
+          transform 0.35s ease,
+          opacity 0.25s ease;
+      }
+      .hamburger.open span:nth-child(1) {
+        transform: translateY(7.5px) rotate(45deg);
+      }
+      .hamburger.open span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.open span:nth-child(3) {
+        transform: translateY(-7.5px) rotate(-45deg);
+      }
+
+      .mobile-menu {
+        position: fixed;
+        inset: 0;
+        z-index: 45;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        background: var(--glass-bg-strong);
+        backdrop-filter: blur(28px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s ease;
+      }
+      .mobile-menu.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .mobile-menu a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+      .mobile-menu a:hover {
+        color: var(--accent);
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .mobile-menu {
+          display: flex;
+        }
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: none;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .reveal {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+      }
+      #bumi {
+        position: relative;
+        width: 100%;
+        height: 280px;
+        overflow: hidden;
+        border-radius: 20px;
+        background: radial-gradient(
+          circle at 50% 40%,
+          hsl(var(--h, 140) 40% 14%),
+          #05080a 80%
+        );
+        box-shadow: 0 0 50px hsl(var(--h, 140) 80% 50% / 0.35);
+        transition: box-shadow 0.4s;
+      }
+      #bumi svg {
+        width: 100%;
+        height: 100%;
+      }
+      #bumi .pulau {
+        fill: hsl(var(--h, 140) 55% 32%);
+        stroke: hsl(var(--h, 140) 70% 60%);
+        stroke-width: 2;
+        stroke-linejoin: round;
+        transition:
+          fill 0.4s,
+          stroke 0.4s;
+      }
+      #bumi .titik {
+        fill: #ff5a1f;
+        opacity: 0;
+        transition: opacity 0.4s;
+        animation: kedip 1.4s infinite;
+      }
+      #bumi .titik.on {
+        opacity: 1;
+      }
+      @keyframes kedip {
+        50% {
+          r: 7;
+        }
+      }
+      #bumi .hitung {
+        position: absolute;
+        top: 12px;
+        left: 16px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .glass-pag {
+        width: auto !important;
+        left: 50% !important;
+        bottom: 16px !important;
+        transform: translateX(-50%);
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+      }
+      .glass-pag .swiper-pagination-bullet {
+        background: #fff;
+        opacity: 1;
+      }
+      .glass-pag .swiper-pagination-bullet-active {
+        opacity: 0.5;
+        width: 18px;
+        border-radius: 700px;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-br from-daun-pucat/30 via-white to-daun-muda/60 dark:from-black dark:via-black dark:to-black text-slate-800 dark:text-slate-100 transition-colors duration-300"
+  >
+    <div class="scroll-progress-container">
+      <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+    </div>
+    <div
+      id="loadingScreen"
+      class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-slate-950 text-white transition-opacity duration-700"
+    >
+      <div class="relative flex items-center justify-center mb-6">
+        <div
+          class="w-20 h-20 rounded-full border-4 border-emerald-500/20 border-t-emerald-500 animate-spin"
+        ></div>
+        <div
+          class="absolute p-3 bg-gradient-to-tr from-emerald-600 to-teal-400 rounded-full shadow-lg shadow-emerald-500/40"
+        >
+          <i class="fa-solid fa-leaf text-2xl text-white"></i>
+        </div>
+      </div>
+      <h2
+        class="text-2xl font-black tracking-wider bg-gradient-to-r from-emerald-400 via-teal-300 to-green-400 bg-clip-text text-transparent mb-2"
+      >
+        GreenEarth
+      </h2>
+      <p
+        class="text-xs font-mono text-emerald-400/80 animate-pulse tracking-wide"
+      >
+        Memuat Ekosistem Hutan Borneo...
+      </p>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+      <a href="index.html" class="nav-brand"
+        ><i class="fa-solid fa-leaf"></i><span>Green Earth</span></a
+      >
+
+      <ul class="nav-links">
+        <li>
+          <a href="index.html" class="nav-link"
+            ><i class="fa-solid fa-house"></i> Beranda</a
+          >
+        </li>
+        <li class="nav-dropdown">
+          <a href="program.html" class="nav-link"
+            ><i class="fa-solid fa-cubes"></i><span>Program</span
+            ><i class="fa-solid fa-chevron-down nav-dropdown-arrow"></i
+          ></a>
+          <div class="nav-dropdown-menu">
+            <a href="program.html" class="nav-dropdown-item">
+              <div class="dropdown-item-icon">
+                <i class="fa-solid fa-earth-asia"></i>
+              </div>
+              <div>
+                <span class="dropdown-item-title">3D Globe &amp; Ringkasan</span
+                ><span class="dropdown-item-desc"
+                  >Eksplorasi bumi 3D interaktif Kalimantan</span
+                >
+              </div>
+            </a>
+            <a href="program.html#carouselSection" class="nav-dropdown-item">
+              <div class="dropdown-item-icon">
+                <i class="fa-solid fa-seedling"></i>
+              </div>
+              <div>
+                <span class="dropdown-item-title">Reboisasi Hutan Endemik</span
+                ><span class="dropdown-item-desc"
+                  >Pemulihan habitat satwa endemik Borneo</span
+                >
+              </div>
+            </a>
+            <a href="program.html#carouselSection" class="nav-dropdown-item">
+              <div class="dropdown-item-icon">
+                <i class="fa-solid fa-camera"></i>
+              </div>
+              <div>
+                <span class="dropdown-item-title">Camera Trap Monitoring</span
+                ><span class="dropdown-item-desc"
+                  >Sensor gerak inframerah 24/7 non-invasif</span
+                >
+              </div>
+            </a>
+            <a href="program.html#carouselSection" class="nav-dropdown-item">
+              <div class="dropdown-item-icon">
+                <i class="fa-solid fa-water"></i>
+              </div>
+              <div>
+                <span class="dropdown-item-title">Restorasi Lahan Gambut</span
+                ><span class="dropdown-item-desc"
+                  >Canal blocking &amp; rewetting anti karhutla</span
+                >
+              </div>
+            </a>
+            <a href="program.html#dampakSection" class="nav-dropdown-item">
+              <div class="dropdown-item-icon">
+                <i class="fa-solid fa-chart-line"></i>
+              </div>
+              <div>
+                <span class="dropdown-item-title">Dampak Lingkungan</span
+                ><span class="dropdown-item-desc"
+                  >Metrik kenaikan keanekaragaman hayati</span
+                >
+              </div>
+            </a>
+          </div>
+        </li>
+        <li>
+          <a href="dampak.html" class="nav-link active"
+            ><i class="fa-solid fa-earth-asia"></i> Dampak</a
+          >
+        </li>
+        <li>
+          <a href="index.html#donasi" class="nav-link"
+            ><i class="fa-solid fa-hand-holding-heart"></i> Donasi</a
+          >
+        </li>
+        <li>
+          <a href="index.html#kontak" class="nav-link"
+            ><i class="fa-solid fa-envelope"></i> Kontak</a
+          >
+        </li>
+      </ul>
+
+      <div class="nav-right">
+        <button
+          class="theme-toggle"
+          id="themeToggle"
+          aria-label="Ganti mode gelap atau terang"
+        >
+          <div class="toggle-knob">
+            <i class="fa-solid fa-sun" id="toggleIcon"></i>
+          </div>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Buka navigasi">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Beranda</a>
+      <a href="program.html"><i class="fa-solid fa-cubes"></i> Program</a>
+      <a href="dampak.html"><i class="fa-solid fa-earth-asia"></i> Dampak</a>
+      <a href="index.html#donasi"
+        ><i class="fa-solid fa-hand-holding-heart"></i> Donasi</a
+      >
+      <a href="index.html#kontak"
+        ><i class="fa-solid fa-envelope"></i> Kontak</a
+      >
+    </div>
+
+    <!-- End of Navbar -->
+    <div class="relative min-h-screen flex flex-col overflow-hidden">
+      <!-- HERO SECTION -->
+      <section
+        class="flex-1 w-full max-w-7xl mx-auto pt-32 pb-32 px-4 flex flex-col md:flex-row items-center gap-12 relative z-10"
+      >
+        <!-- Teks -->
+        <div class="w-full md:w-1/2 md:pr-36 text-left">
+          <h1
+            class="text-5xl lg:text-7xl font-extrabold text-slate-800 dark:text-white leading-[1.1] mb-6"
+          >
+            Selamatkan <br />
+            <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-daun-tua to-daun dark:from-daun-muda dark:to-daun-pucat"
+            >
+              Paru-Paru Dunia.
+            </span>
+          </h1>
+          <p
+            class="text-slate-600 dark:text-slate-400 text-lg mb-8 max-w-lg leading-relaxed"
+          >
+            Kebakaran hutan dan deforestasi memicu pemanasan global yang
+            ekstrem. Ribuan satwa liar kehilangan tempat tinggal. Saatnya kita
+            bertindak.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a
+              href="#datafakta"
+              class="inline-block btn-denyut border-2 border-daun bg-daun/10 hover:bg-daun hover:text-white text-daun-tua dark:text-daun-muda px-8 py-3.5 rounded-xl font-bold transition-all"
+            >
+              Pelajari Fakta
+            </a>
+          </div>
+        </div>
+        <div class="w-full md:w-1/2 relative">
+          <div
+            class="bg-white block p-7 dark:bg-black dark:border-black border border-default rounded-xl shadow-xs"
+          >
+            <img
+              src="/peta-satelit-nasa-tampilkan-sebaran-karbon-monoksida-di-indonesia-wilayah-merah-meluas1.jpg"
+              alt="NASA"
+              class="relative z-10 w-full h-[520px] object-cover rounded-3xl shadow-2xl border border-white/20 dark:border-slate-700/50 hover:scale-[1.02] transition-transform duration-500"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= API (FIX LIGHT & DARK MODE) ================= -->
+      <div
+        class="absolute bottom-0 left-0 w-full h-56 z-20 pointer-events-none overflow-hidden"
+      >
+        <div
+          class="absolute bottom-0 w-full h-40 bg-gradient-to-t from-orange-400/15 dark:from-orange-600/60 via-red-500/5 dark:via-red-600/20 to-transparent"
+        ></div>
+        <!-- POHON -->
+        <svg
+          class="absolute bottom-0 w-full h-40 text-slate-400/80 dark:text-slate-800 drop-shadow-[0_-5px_10px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_-5px_15px_rgba(0,0,0,0.8)]"
+          preserveAspectRatio="none"
+          viewBox="0 0 1200 120"
+          fill="currentColor"
+        >
+          <path
+            d="M0,120 L0,80 L20,60 L25,65 L30,40 L35,55 L40,30 L45,70 L60,80 L80,50 L85,60 L90,20 L95,50 L100,40 L110,80 L130,90 L150,40 L155,70 L160,30 L165,60 L170,50 L180,80 L200,90 L220,60 L225,70 L230,20 L235,50 L240,30 L245,60 L250,80 L270,90 L300,120 Z"
+          ></path>
+          <path
+            d="M1200,120 L1200,80 L1180,60 L1175,65 L1170,40 L1165,55 L1160,30 L1155,70 L1140,80 L1120,50 L1115,60 L1110,20 L1105,50 L1100,40 L1090,80 L1070,90 L1050,40 L1045,70 L1040,30 L1035,60 L1030,50 L1020,80 L1000,90 L980,60 L975,70 L970,20 L965,50 L960,30 L955,60 L950,80 L930,90 L900,120 Z"
+          ></path>
+        </svg>
+
+        <!-- Api -->
+        <div class="api w-6 h-6 left-[10%]" style="animation-delay: 0s"></div>
+        <div
+          class="api w-8 h-8 left-[20%]"
+          style="animation-delay: 0.8s; background: #ef4444"
+        ></div>
+        <div class="api w-4 h-4 left-[35%]" style="animation-delay: 2.1s"></div>
+        <div
+          class="api w-10 h-10 left-[50%]"
+          style="animation-delay: 0.4s; background: #eab308"
+        ></div>
+        <div class="api w-6 h-6 left-[65%]" style="animation-delay: 1.5s"></div>
+        <div
+          class="api w-4 h-4 left-[80%]"
+          style="animation-delay: 3.2s; background: #ef4444"
+        ></div>
+        <div class="api w-8 h-8 left-[90%]" style="animation-delay: 1.1s"></div>
+
+        <div class="api w-2 h-2 left-[15%]" style="animation-delay: 2.5s"></div>
+        <div class="api w-3 h-3 left-[45%]" style="animation-delay: 1.9s"></div>
+        <div class="api w-2 h-2 left-[75%]" style="animation-delay: 0.2s"></div>
+      </div>
+    </div>
+
+    <section
+      class="relative w-full py-24 overflow-hidden scroll-mt-24"
+      id="datafakta"
+    >
+      <!-- Background -->
+      <div
+        class="absolute inset-0 z-0 [mask-image:linear-gradient(to_bottom,transparent,black_0%,black_100%,transparent)] [-webkit-mask-image:linear-gradient(to_bottom,transparent,black_0%,black_100%,transparent)]"
+      >
+        <img
+          src="/natural-view-of-mountains-covered-with-dew-mount-boga-located-in-east-kalimantan-free-photo (1).jpg"
+          class="block dark:hidden w-full h-full object-cover"
+        />
+
+        <img
+          src="https://i0.wp.com/borneoadventure.com/v3/wp-content/uploads/2012/06/sabah-tabin-rhinoceros-hornbill-02.jpg?resize=800%2C532&quality=60&strip=all&ssl=1"
+          class="hidden dark:block w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-black/10 dark:bg-slate-950/60"></div>
+      </div>
+
+      <!-- Data -->
+      <div class="relative z-20 max-w-7xl mx-auto px-4">
+        <div class="text-center mb-12">
+          <span
+            class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 text-daun-tua dark:text-daun-pucat text-xs font-bold uppercase tracking-widest"
+          >
+            <i class="fa-solid fa-chart-line"></i> Data Terbaru
+          </span>
+          <h2
+            class="mt-4 text-3xl md:text-5xl font-bold text-white mb-4 drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)]"
+          >
+            Fakta di Lapangan
+          </h2>
+
+          <p class="text-white font-medium max-w-2xl mx-auto">
+            Berikut ini adalah data dari beberapa tahun terakhir.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- HEKTAR -->
+          <div
+            class="bg-white/10 dark:bg-slate-800/10 backdrop-blur-md p-8 rounded-3xl text-center transform transition hover:-translate-y-2 shadow-2xl border border-transparent dark:border-slate-700"
+          >
+            <h3
+              class="counter text-5xl font-black text-white dark:text-daun-pucat mb-2"
+              data-target="40.8"
+              data-decimals="1"
+              data-suffix="M"
+            >
+              40.8M
+            </h3>
+            <p
+              class="text-slate-800 dark:text-slate-300 font-semibold tracking-wide text-sm"
+            >
+              Hektar Hutan Terdampak
+            </p>
+          </div>
+          <!-- SATWA -->
+          <div
+            class="bg-white/10 dark:bg-slate-800/10 backdrop-blur-md p-8 rounded-3xl text-center transform transition hover:-translate-y-2 shadow-2xl border border-transparent dark:border-slate-700"
+          >
+            <h3
+              class="counter text-5xl font-black text-white dark:text-pink-200 mb-2"
+              data-target="222"
+              data-decimals="0"
+              data-suffix="+"
+            >
+              222+
+            </h3>
+            <p
+              class="text-slate-800 dark:text-slate-300 font-semibold tracking-wide text-sm"
+            >
+              Spesies Satwa Terancam
+            </p>
+          </div>
+
+          <!-- TARGET -->
+          <div
+            class="bg-white/10 dark:bg-slate-800/10 backdrop-blur-md p-8 rounded-3xl text-center transform transition hover:-translate-y-2 shadow-2xl border border-transparent dark:border-slate-700"
+          >
+            <h3
+              class="counter text-5xl font-black text-white dark:text-amber-200 mb-2"
+              data-target="75"
+              data-decimals="0"
+              data-suffix="%"
+            >
+              75%
+            </h3>
+            <p
+              class="text-slate-800 dark:text-slate-300 font-semibold tracking-wide text-sm"
+            >
+              Target Konservasi
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PEMANASAN GLOBAL ================= -->
+    <section
+      class="relative w-full min-h-screen flex items-center py-24 overflow-hidden"
+    >
+      <!-- KONTEN -->
+      <div
+        class="relative z-10 w-full max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12"
+      >
+        <div class="w-full md:w-1/2 relative">
+          <div
+            class="relative rounded-[2rem] p-3 bg-white/40 dark:bg-white/5 backdrop-blur-xl border border-white/50 dark:border-white/10 shadow-2xl"
+          >
+            <div
+              class="swiper swiperA w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden"
+            >
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <img
+                    src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
+                    alt="Pemanasan Global 1"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div class="swiper-slide">
+                  <img
+                    src="https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,f_auto,q_auto:best,w_640/v1634025439/01ha6pyjgjte399abxq2e9jhew.jpg"
+                    alt="Pemanasan Global 2"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div class="swiper-slide">
+                  <img
+                    src="https://statik.tempo.co/data/2026/07/31/id_1484791/1484791_720.jpg"
+                    alt="Pemanasan Global 3"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div class="swiper-slide">
+                  <img
+                    src="https://cdn.antaranews.com/cache/1200x800/2019/09/15/Dampak-Karhutla-Di-Kalsel-150919-Bay-1.jpg"
+                    alt="Pemanasan Global 4"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+              <div class="swiper-pagination glass-pag"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Teks -->
+        <div class="w-full md:w-1/2 relative">
+          <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-green-600/20 blur-[100px] rounded-full pointer-events-none animate-pulse"
+          ></div>
+
+          <div class="relative z-10">
+            <h2
+              class="text-4xl md:text-5xl font-extrabold text-slate-800 dark:text-white leading-tight mb-6"
+            >
+              Pemanasan global <br />
+              <span class="text-forestmoss dark:text-warmstone">
+                yang mengancam
+              </span>
+            </h2>
+
+            <p
+              class="text-slate-600 dark:text-slate-400 text-lg mb-8 leading-relaxed text-justify"
+            >
+              Pemanasan global sering disebabkan oleh aktivitas manusia seperti
+              pembakaran bahan bakar fosil dan deforestasi yang menghasilkan
+              emisi gas rumah kaca tinggi, terutama CO2, CH4, dan N2O.
+              Akibatnya, muncul perubahan iklim ekstrem seperti curah hujan
+              tinggi, badai dahsyat, banjir, dan kekeringan.
+              <!--kalau misal nanti ada button fakta unik gitu yah (tapi ntar dibikin interaktif) jadi isi button  nya waktu di klik tuh kayak apa yaa, intinya kutub cair, dll gitu loh. mumet ga yg baca kira kira?-->
+              <br /><br />
+              Saat ini hutan di Kalimantan sedang mengalami deforestasi yang
+              parah. Akibatnya, lahan mengering hingga memicu kebakaran hutan
+              hebat yang merugikan kesehatan masyarakat melalui kabut asap
+              tebal, memicu konflik regional dengan negara tetangga, serta
+              mengancam habitat satwa liar dan keanekaragaman hayati.
+            </p>
+            <button
+              id="btnFakta"
+              class="mt-2 inline-flex items-center gap-2 border-2 border-daun bg-daun/10 hover:bg-daun hover:text-white text-daun-tua dark:text-daun-muda px-6 py-3 rounded-xl font-bold transition-all"
+            >
+              <i class="fa-solid fa-circle-info"></i> Fakta unik
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SECTION SATWA LIAR ================= -->
+    <section
+      class="relative w-full min-h-screen flex items-center py-24 overflow-hidden"
+    >
+      <!-- KONTEN UTAMA -->
+      <div
+        class="relative z-10 w-full max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12"
+      >
+        <!-- TEKS -->
+        <div class="w-full md:w-1/2 relative">
+          <div class="relative z-10">
+            <h2
+              class="text-4xl md:text-5xl font-extrabold text-slate-800 dark:text-white leading-tight mb-6"
+            >
+              Apa dampaknya <br />
+              <span class="text-forestmoss dark:text-warmstone">
+                Kepada satwa liar?
+              </span>
+            </h2>
+
+            <p
+              class="text-slate-600 dark:text-slate-400 text-lg mb-8 leading-relaxed text-justify"
+            >
+              Selain pemanasan global, deforestasi juga mengancam habitat dan
+              keberadaan satwa liar di hutan Kalimantan. Banyak spesies hewan
+              yang kehilangan tempat tinggal dan sumber makanan akibat hilangnya
+              lahan hutan. Tumbangnya pohon-pohon besar menghilangkan tempat
+              bersarang dan berlindung alami satwa.
+              <br /><br />
+              Saat karhutla, satwa yang bergerak lambat (seperti orangutan,
+              bekantan, kakung, dan trenggiling) sering terperangkap api hingga
+              mati terpanggang atau luka parah. Selain itu, kabut asap tebal
+              memicu ISPA dan stres berat yang menurunkan sistem imun mereka
+              secara drastis.
+            </p>
+          </div>
+        </div>
+
+        <!--GAMBAR-->
+        <div class="w-full md:w-1/2 relative">
+          <div
+            class="relative rounded-[2rem] p-3 bg-white/40 dark:bg-white/5 backdrop-blur-xl border border-white/50 dark:border-white/10 shadow-2xl"
+          >
+            <div
+              class="swiper swiperB w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden"
+            >
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <img
+                    src="https://kukangku.id/wp-content/uploads/2020/08/BKSDA-Kalteng-Kukang-Kalimantan.jpeg"
+                    alt="Kukang Kalimantan"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div class="swiper-slide">
+                  <img
+                    src="https://media.istockphoto.com/id/2198002585/id/foto/betina-orangutan-dengan-anaknya-di-habitat-asli-taman-nasional-tanjung-puting-kalimantan.jpg?s=612x612&w=0&k=20&c=Y6jPKeQt9TLDUlNsUcMXhcOAHevXJIPUEls58GdgYDc="
+                    alt="Hutan Kalimantan"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div class="swiper-slide">
+                  <img
+                    src="https://static.dw.com/image/51043084_605.webp"
+                    alt="Satwa liar"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div class="swiper-slide">
+                  <img
+                    src="https://cdn.antaranews.com/cache/1200x800/2019/01/trenggiling_1.jpg"
+                    alt="Pemanasan Global"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+              <div class="swiper-pagination glass-pag"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div
+      id="modalFakta"
+      class="fixed inset-0 z-[90] flex items-center justify-center p-5 bg-black/60 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300"
+      aria-hidden="true"
+    >
+      <div
+        id="modalKotak"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalJudul"
+        class="relative w-full max-w-2xl min-h-[500px] max-h-[90vh] overflow-y-auto p-8 rounded-3xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-white/50 dark:border-white/10 shadow-2xl scale-95 transition-transform duration-300"
+      >
+        <button
+          id="modalTutup"
+          aria-label="Tutup"
+          class="absolute top-5 right-5 w-10 h-10 rounded-full grid place-items-center text-slate-700 dark:text-white bg-slate-200/70 dark:bg-white/10 hover:bg-daun hover:text-white transition"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <h3
+          id="modalJudul"
+          class="text-3xl font-extrabold text-slate-800 dark:text-white pr-12"
+        >
+          Fakta Pemanasan Global di Kalimantan
+        </h3>
+
+        <ul
+          class="mt-5 space-y-4 text-slate-600 dark:text-slate-300 leading-relaxed"
+        >
+          <li>
+            <b class="text-slate-800 dark:text-white"
+              >Kenaikan Suhu Permukaan.</b
+            >
+            Laju peningkatan suhu permukaan di Kalimantan Timur tercatat
+            mencapai 0,95 °C per dekade.
+          </li>
+          <li>
+            <b class="text-slate-800 dark:text-white"
+              >Lonjakan Anomali Termal dan Karhutla.</b
+            >
+            Satelit NASA mendeteksi lebih dari 5.000 piksel anomali termal pada
+            pertengahan 2026, yang menandai tingginya potensi kebakaran.
+          </li>
+          <li>
+            <b class="text-slate-800 dark:text-white"
+              >Deforestasi dan Emisi Karbon.</b
+            >
+            Hutan di Kalimantan Timur secara konsisten menjadi sumber emisi
+            karbon (net carbon source), melepaskan puluhan juta ton CO₂
+            ekuivalen per tahun akibat hilangnya tutupan pohon.
+          </li>
+        </ul>
+      </div>
+    </div>
+    ;
+
+    <script>
+      ["swiperA", "swiperB"].forEach(function (nama) {
+        new Swiper("." + nama, {
+          loop: true,
+          speed: 800,
+          autoplay: {
+            delay: 2000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          },
+          pagination: { el: "." + nama + " .glass-pag", clickable: true },
+        });
+      });
+    </script>
+    <script>
+      (function () {
+        var html = document.documentElement;
+        var KEY = "greenearth-theme";
+        var navbar = document.getElementById("navbar");
+        var bar = document.getElementById("scrollProgressBar");
+        var toggle = document.getElementById("themeToggle");
+        var icon = document.getElementById("toggleIcon");
+        var burger = document.getElementById("hamburger");
+        var menu = document.getElementById("mobileMenu");
+
+        function applyTheme(theme) {
+          html.classList.toggle("dark", theme === "dark");
+          if (icon)
+            icon.className =
+              theme === "dark" ? "fa-solid fa-moon" : "fa-solid fa-sun";
+          try {
+            localStorage.setItem(KEY, theme);
+          } catch (e) {}
+        }
+
+        var saved = null;
+        try {
+          saved = localStorage.getItem(KEY);
+        } catch (e) {}
+        var osDark =
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches;
+        applyTheme(saved || (osDark ? "dark" : "light"));
+
+        if (toggle)
+          toggle.addEventListener("click", function () {
+            applyTheme(html.classList.contains("dark") ? "light" : "dark");
+          });
+
+        function closeMenu() {
+          burger.classList.remove("open");
+          menu.classList.remove("open");
+          document.body.style.overflow = "";
+        }
+        if (burger && menu) {
+          burger.addEventListener("click", function () {
+            burger.classList.toggle("open");
+            menu.classList.toggle("open");
+            document.body.style.overflow = menu.classList.contains("open")
+              ? "hidden"
+              : "";
+          });
+          menu.querySelectorAll("a").forEach(function (a) {
+            a.addEventListener("click", closeMenu);
+          });
+        }
+
+        function onScroll() {
+          var y = window.scrollY;
+          var max = html.scrollHeight - window.innerHeight;
+          if (bar) bar.style.width = (max > 0 ? (y / max) * 100 : 0) + "%";
+          if (navbar) navbar.classList.toggle("scrolled", y > 40);
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+      })();
+    </script>
+    <script>
+      function animateCounter(el) {
+        const target = parseFloat(el.dataset.target);
+        const decimals = parseInt(el.dataset.decimals || "0", 10);
+        const suffix = el.dataset.suffix || "";
+        const duration = 3000;
+        let start = null;
+
+        function step(time) {
+          if (!start) start = time;
+          const progress = Math.min((time - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = (eased * target).toFixed(decimals) + suffix;
+          if (progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+      const counterObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              animateCounter(entry.target);
+              counterObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.4 },
+      );
+
+      document.querySelectorAll(".counter").forEach((el) => {
+        counterObserver.observe(el);
+      });
+      function hideLoader() {
+        const loader = document.getElementById("loadingScreen");
+        if (!loader) return;
+        loader.classList.add("opacity-0");
+        setTimeout(() => {
+          loader.style.display = "none";
+        }, 700);
+      }
+
+      window.addEventListener("load", () => setTimeout(hideLoader, 800));
+      setTimeout(hideLoader, 4000);
+
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 },
+      );
+
+      document.querySelectorAll(".reveal").forEach((el) => {
+        revealObserver.observe(el);
+      });
+    </script>
+
+    <script>
+      const modal = document.getElementById("modalFakta");
+      const kotak = document.getElementById("modalKotak");
+
+      function bukaModal() {
+        modal.classList.remove("opacity-0", "pointer-events-none");
+        kotak.classList.remove("scale-95");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      }
+      function tutupModal() {
+        modal.classList.add("opacity-0", "pointer-events-none");
+        kotak.classList.add("scale-95");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      }
+
+      document.getElementById("btnFakta").addEventListener("click", bukaModal);
+      document
+        .getElementById("modalTutup")
+        .addEventListener("click", tutupModal);
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) tutupModal(); // klik area gelap di luar kotak
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") tutupModal();
+      });
+    </script>
+  </body>
+</html>
