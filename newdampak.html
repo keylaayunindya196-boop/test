@@ -1,0 +1,1764 @@
+<!doctype html>
+<html lang="id" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dampak - Green Earth</title>
+    <script>
+      (function () {
+        var t = null;
+        try {
+          t = localStorage.getItem("greenearth-theme");
+        } catch (e) {}
+        if (!t)
+          t =
+            window.matchMedia &&
+            matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+        document.documentElement.setAttribute("data-theme", t);
+      })();
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
+    />
+    <style>
+      :root {
+        --ink: #111111;
+        --sage-mist: #a9b8a1;
+        --forestmoss: #33564d;
+        --deeppine: #112b29;
+        --warmstone: #b8a58d;
+        --linen: #e8e1d5;
+        --snow: #f6f5ee;
+
+        --daun-tua: #1f570f;
+        --daun: #3ead1f;
+        --daun-muda: #71e052;
+        --daun-pucat: #b8f0a8;
+
+        --background: var(--snow);
+        --foreground: var(--ink);
+        --primary: var(--forestmoss);
+        --primary-foreground: var(--snow);
+
+        --bg: #f8f9fa;
+        --bg2: #fff;
+        --tx: #1a1a1a;
+        --tx2: #555;
+        --mut: #777;
+        --ac: #1f570f;
+        --acl: rgba(31, 87, 15, 0.12);
+        --acg: rgba(31, 87, 15, 0.28);
+        --on: #fff;
+        --glass: rgba(255, 255, 255, 0.65);
+        --gb: rgba(255, 255, 255, 0.45);
+        --gs: rgba(255, 255, 255, 0.88);
+        --nav: rgba(255, 255, 255, 0.75);
+        --sh: 0 12px 36px rgba(0, 0, 0, 0.07);
+        --foot: #141716;
+        --ft: #b0b5b3;
+        --cnt: rgba(31, 87, 15, 0.08);
+      }
+      [data-theme="dark"] {
+        --bg: #0a0c0b;
+        --bg2: #121514;
+        --tx: #f0f3f1;
+        --tx2: #a8b0ac;
+        --mut: #6e7672;
+        --ac: #71e052;
+        --acl: rgba(113, 224, 82, 0.14);
+        --acg: rgba(113, 224, 82, 0.32);
+        --on: #0a2a05;
+        --glass: rgba(22, 28, 25, 0.62);
+        --gb: rgba(255, 255, 255, 0.09);
+        --gs: rgba(20, 26, 23, 0.9);
+        --nav: rgba(12, 16, 14, 0.78);
+        --sh: 0 12px 36px rgba(0, 0, 0, 0.38);
+        --foot: #060807;
+        --ft: #8d9491;
+        --cnt: rgba(113, 224, 82, 0.09);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background: var(--bg);
+        color: var(--tx);
+        line-height: 1.6;
+        overflow-x: hidden;
+        transition:
+          background 0.5s,
+          color 0.5s;
+      }
+      a {
+        color: inherit;
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--ac);
+        border-radius: 999px;
+      }
+      :focus-visible {
+        outline: 2px solid var(--ac);
+        outline-offset: 3px;
+      }
+
+      #loader {
+        position: fixed;
+        inset: 0;
+        z-index: 3000;
+        background: #020617;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        transition: opacity 0.7s;
+      }
+      #loader.hide {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .spin {
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        border: 4px solid rgba(16, 185, 129, 0.2);
+        border-top-color: #10b981;
+        animation: sp 1s linear infinite;
+        display: grid;
+        place-items: center;
+      }
+      .spin i {
+        color: #34d399;
+        font-size: 1.6rem;
+        animation: sp 1s linear infinite reverse;
+      }
+      @keyframes sp {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      #loader h2 {
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        color: #34d399;
+      }
+      #loader small {
+        font-family: monospace;
+        color: #34d399;
+        opacity: 0.8;
+        font-size: 0.75rem;
+      }
+
+      .prog {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        z-index: 1002;
+        pointer-events: none;
+      }
+      .prog div {
+        height: 100%;
+        width: 0;
+        background: var(--ac);
+      }
+      .totop {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--gs);
+        backdrop-filter: blur(18px);
+        border: 1.5px solid var(--gb);
+        color: var(--ac);
+        cursor: pointer;
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px);
+        transition: 0.35s;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      }
+      .totop.on {
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+      }
+      .totop:hover {
+        background: var(--ac);
+        color: var(--on);
+      }
+
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        height: 70px;
+        padding: 0 clamp(1.2rem, 4vw, 3rem);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--nav);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--gb);
+        transition:
+          background 0.4s,
+          box-shadow 0.4s,
+          height 0.3s;
+      }
+      .navbar.scrolled {
+        background: var(--gs);
+        height: 64px;
+        box-shadow: 0 4px 28px rgba(0, 0, 0, 0.08);
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 800;
+        font-size: 1.35rem;
+        letter-spacing: -0.5px;
+        color: var(--ac);
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .links {
+        display: flex;
+        align-items: center;
+        gap: 2.2rem;
+        list-style: none;
+      }
+      .nl {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 0;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--tx2);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      .nl::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        width: 0;
+        height: 2.5px;
+        border-radius: 4px;
+        background: var(--ac);
+        transition: width 0.35s;
+      }
+      .nl:hover,
+      .nl.active,
+      .dd:hover > .nl {
+        color: var(--ac);
+      }
+      .nl:hover::after,
+      .nl.active::after {
+        width: 100%;
+      }
+      .dd {
+        position: relative;
+      }
+      .dd .arr {
+        font-size: 0.72rem;
+        transition: transform 0.35s;
+      }
+      .dd:hover .arr {
+        transform: rotate(180deg);
+      }
+      .ddm {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        min-width: 320px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 12px;
+        background: var(--gs);
+        backdrop-filter: blur(28px);
+        border: 1px solid var(--gb);
+        border-radius: 22px;
+        box-shadow: 0 20px 48px rgba(0, 0, 0, 0.22);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateX(-50%) translateY(14px) scale(0.96);
+        transition:
+          opacity 0.3s,
+          transform 0.3s,
+          visibility 0.3s;
+      }
+      .ddm::before {
+        content: "";
+        position: absolute;
+        top: -16px;
+        left: 0;
+        right: 0;
+        height: 16px;
+      }
+      .dd:hover .ddm,
+      .dd:focus-within .ddm {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(8px);
+      }
+      .ddi {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        border-radius: 14px;
+        text-decoration: none;
+        transition: 0.25s;
+      }
+      .ddi:hover {
+        background: var(--acl);
+        transform: translateX(4px);
+      }
+      .ddi .ic {
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        border-radius: 12px;
+        background: var(--cnt);
+        color: var(--ac);
+        transition: 0.25s;
+      }
+      .ddi:hover .ic {
+        background: var(--ac);
+        color: var(--on);
+      }
+      .ddi b {
+        display: block;
+        font-size: 0.9rem;
+        line-height: 1.3;
+      }
+      .ddi small {
+        display: block;
+        font-size: 0.74rem;
+        color: var(--mut);
+        line-height: 1.25;
+      }
+      .right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .toggle {
+        width: 58px;
+        height: 30px;
+        padding: 0 4px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        background: var(--acl);
+        border: 1.5px solid var(--gb);
+        border-radius: 999px;
+      }
+      .knob {
+        width: 22px;
+        height: 22px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        font-size: 11px;
+        background: var(--ac);
+        color: var(--on);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.45s cubic-bezier(0.68, -0.15, 0.27, 1.15);
+      }
+      [data-theme="dark"] .knob {
+        transform: translateX(26px);
+      }
+      .burger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        padding: 6px;
+        background: none;
+        border: 0;
+        cursor: pointer;
+        z-index: 1100;
+      }
+      .burger span {
+        display: block;
+        width: 24px;
+        height: 2.5px;
+        border-radius: 3px;
+        background: var(--tx);
+        transition: 0.35s;
+      }
+      .burger.open span:nth-child(1) {
+        transform: translateY(7.5px) rotate(45deg);
+      }
+      .burger.open span:nth-child(2) {
+        opacity: 0;
+      }
+      .burger.open span:nth-child(3) {
+        transform: translateY(-7.5px) rotate(-45deg);
+      }
+      .mm {
+        position: fixed;
+        inset: 0;
+        z-index: 1050;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.8rem;
+        background: var(--gs);
+        backdrop-filter: blur(28px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s;
+      }
+      .mm.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .mm a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.3rem;
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .mm a:hover,
+      .mm a.active {
+        color: var(--ac);
+      }
+      @media (max-width: 768px) {
+        .links {
+          display: none;
+        }
+        .burger,
+        .mm {
+          display: flex;
+        }
+      }
+
+      .wrap {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 clamp(1rem, 4vw, 3rem);
+      }
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--acl);
+        color: var(--ac);
+        padding: 6px 16px;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 1rem;
+      }
+      .accent {
+        color: var(--ac);
+      }
+      .rv,
+      .rvl,
+      .rvr {
+        opacity: 0;
+        transition:
+          opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .rv {
+        transform: translateY(45px) scale(0.97);
+      }
+      .rvl {
+        transform: translateX(-50px);
+      }
+      .rvr {
+        transform: translateX(50px);
+      }
+      .rv.in,
+      .rvl.in,
+      .rvr.in {
+        opacity: 1;
+        transform: none;
+      }
+      .d1 {
+        transition-delay: 0.1s;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .rv,
+        .rvl,
+        .rvr {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+        * {
+          animation: none !important;
+        }
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 110px 0 70px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero .wrap {
+        display: flex;
+        align-items: center;
+        gap: 3rem;
+        position: relative;
+        z-index: 2;
+        width: 100%;
+      }
+      .hero-t,
+      .hero-i {
+        flex: 1;
+        min-width: 0;
+      }
+      .hero-i {
+        flex: 1.25;
+      }
+      .hero .wrap {
+        max-width: 1320px;
+      }
+      #heroFrame {
+        transition: transform 0.15s ease-out;
+      }
+      .hero h1 {
+        font-size: clamp(2.4rem, 6vw, 4.4rem);
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -1.5px;
+        margin-bottom: 1.2rem;
+      }
+      .hero p {
+        color: var(--tx2);
+        font-size: 1.1rem;
+        max-width: 480px;
+        line-height: 1.8;
+        margin-bottom: 2rem;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 13px 28px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-decoration: none;
+        border: 0;
+        cursor: pointer;
+        font-family: inherit;
+        background: var(--ac);
+        color: var(--on);
+        box-shadow: 0 8px 24px var(--acg);
+        transition: 0.35s;
+      }
+      .btn:hover {
+        transform: translateY(-3px) scale(1.02);
+      }
+      .pulse {
+        animation: pl 2.2s infinite;
+      }
+      @keyframes pl {
+        0% {
+          box-shadow: 0 0 0 0 var(--acg);
+        }
+        70% {
+          box-shadow: 0 0 0 16px transparent;
+        }
+        100% {
+          box-shadow: 0 0 0 0 transparent;
+        }
+      }
+      .frame {
+        padding: 12px;
+        border-radius: 2rem;
+        background: var(--glass);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid var(--gb);
+        box-shadow: var(--sh);
+      }
+      .frame > img {
+        width: 100%;
+        height: clamp(300px, 42vw, 520px);
+        object-fit: cover;
+        border-radius: 1.5rem;
+        display: block;
+        transition: transform 0.8s;
+      }
+      .frame:hover > img {
+        transform: scale(1.02);
+      }
+
+      .facts {
+        position: relative;
+        padding: 6rem 0;
+        overflow: hidden;
+      }
+      .facts .bg {
+        position: absolute;
+        inset: 0;
+      }
+      .facts .bg img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .facts .bg::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35);
+      }
+      [data-theme="dark"] .facts .bg::after {
+        background: rgba(2, 8, 5, 0.65);
+      }
+      .lo {
+        display: block;
+      }
+      .do {
+        display: none;
+      }
+      [data-theme="dark"] .lo {
+        display: none;
+      }
+      [data-theme="dark"] .do {
+        display: block;
+      }
+      .facts .wrap {
+        position: relative;
+        z-index: 2;
+      }
+      .fhead {
+        text-align: center;
+        margin-bottom: 3rem;
+        color: #fff;
+      }
+      .fhead .tag {
+        background: rgba(255, 255, 255, 0.16);
+        color: #b8f0a8;
+      }
+      .fhead h2 {
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 800;
+        letter-spacing: -1px;
+        margin-bottom: 0.6rem;
+        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      }
+      .fgrid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+      .fc {
+        padding: 2.2rem 1.5rem;
+        text-align: center;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 24px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        transition: 0.35s;
+      }
+      .fc:hover {
+        transform: translateY(-6px);
+        border-color: #71e052;
+      }
+      .fc .counter {
+        font-size: clamp(2.4rem, 4vw, 3.2rem);
+        font-weight: 800;
+        letter-spacing: -1px;
+        line-height: 1.1;
+        margin-bottom: 0.4rem;
+      }
+      .fc p {
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .story {
+        padding: 6rem 0;
+      }
+      .story.alt {
+        background: var(--bg2);
+      }
+      .story .wrap {
+        max-width: 1320px;
+        display: grid;
+        grid-template-columns: 1.35fr 1fr;
+        align-items: center;
+        gap: clamp(2rem, 4vw, 3.5rem);
+      }
+      .story.flip .wrap {
+        grid-template-columns: 1fr 1.35fr;
+      }
+      .story .txt,
+      .story .pic {
+        min-width: 0;
+      }
+      .story h2 {
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 800;
+        letter-spacing: -1px;
+        line-height: 1.15;
+        margin-bottom: 1.2rem;
+      }
+      .story p {
+        color: var(--tx2);
+        font-size: 1.02rem;
+        line-height: 1.85;
+        margin-bottom: 1rem;
+      }
+      .swiper {
+        width: 100%;
+        height: clamp(320px, 46vw, 580px);
+        border-radius: 1.5rem;
+        overflow: hidden;
+      }
+      .swiper-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .glass-pag {
+        width: auto !important;
+        left: 50% !important;
+        bottom: 16px !important;
+        transform: translateX(-50%);
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+      }
+      .glass-pag .swiper-pagination-bullet {
+        background: #fff;
+        opacity: 0.6;
+      }
+      .glass-pag .swiper-pagination-bullet-active {
+        opacity: 1;
+        width: 20px;
+        border-radius: 999px;
+      }
+
+      .acc {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 1rem 0 1.4rem;
+      }
+      .ac-i {
+        background: var(--glass);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: 1px solid var(--gb);
+        border-radius: 18px;
+        overflow: hidden;
+        transition: 0.3s;
+      }
+      .ac-i:hover,
+      .ac-i.open {
+        border-color: var(--ac);
+      }
+      .ac-h {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 1rem 1.2rem;
+        background: none;
+        border: 0;
+        color: var(--tx);
+        font-weight: 700;
+        font-size: 1rem;
+        font-family: inherit;
+        text-align: left;
+        cursor: pointer;
+      }
+      .ac-h i {
+        color: var(--mut);
+        transition:
+          transform 0.4s,
+          color 0.3s;
+      }
+      .ac-i.open .ac-h i {
+        transform: rotate(180deg);
+        color: var(--ac);
+      }
+      .ac-b {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.45s;
+      }
+      .story .ac-b p {
+        margin: 0;
+        padding: 1rem 1.2rem 1.2rem;
+        border-top: 1px solid var(--gb);
+        font-size: 0.98rem;
+        line-height: 1.8;
+      }
+      .nav-btn {
+        position: absolute;
+        top: 50%;
+        z-index: 10;
+        width: 44px;
+        height: 44px;
+        margin-top: -22px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        color: #fff;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .nav-btn:hover {
+        background: var(--ac);
+        color: var(--on);
+        transform: scale(1.1);
+      }
+      .nav-prev {
+        left: 14px;
+      }
+      .nav-next {
+        right: 14px;
+      }
+      .modal {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: rgba(10, 20, 15, 0.6);
+        backdrop-filter: blur(12px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s;
+      }
+      .modal.on {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .mcard {
+        position: relative;
+        width: 100%;
+        max-width: 680px;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 2.4rem;
+        background: var(--gs);
+        backdrop-filter: blur(30px);
+        border: 1px solid var(--gb);
+        border-radius: 28px;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+        transform: scale(0.92) translateY(20px);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .modal.on .mcard {
+        transform: none;
+      }
+      .mx {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--cnt);
+        border: 1px solid var(--gb);
+        color: var(--tx);
+        cursor: pointer;
+        transition: 0.25s;
+      }
+      .mx:hover {
+        background: var(--ac);
+        color: var(--on);
+        transform: rotate(90deg);
+      }
+      .mcard h3 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        margin-bottom: 1rem;
+        padding-right: 3rem;
+      }
+      .mcard ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .mcard li {
+        background: var(--cnt);
+        border: 1px solid var(--gb);
+        padding: 14px 16px;
+        border-radius: 14px;
+        color: var(--tx2);
+        font-size: 0.95rem;
+      }
+      .mcard li b {
+        display: block;
+        color: var(--ac);
+      }
+
+      .wave {
+        height: 80px;
+        background: var(--bg2);
+        line-height: 0;
+      }
+      .wave svg {
+        width: 100%;
+        height: 80px;
+      }
+      .footer {
+        background: var(--foot);
+        color: var(--ft);
+        padding: 4rem clamp(1.5rem, 5vw, 4rem) 2.2rem;
+      }
+      .fg {
+        max-width: 1200px;
+        margin: 0 auto 3rem;
+        display: grid;
+        grid-template-columns: 1.8fr 1fr 1fr;
+        gap: 3rem;
+      }
+      .fb {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 1rem;
+      }
+      .fb i {
+        color: var(--ac);
+      }
+      .footer h4 {
+        color: #fff;
+        margin-bottom: 1.1rem;
+      }
+      .footer ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      .footer ul a {
+        text-decoration: none;
+        font-size: 0.92rem;
+        transition: 0.3s;
+      }
+      .footer ul a:hover {
+        color: var(--ac);
+        padding-left: 4px;
+      }
+      .soc {
+        display: flex;
+        gap: 12px;
+      }
+      .soc a {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+      .soc a:hover {
+        background: var(--ac);
+        color: var(--on);
+        transform: translateY(-4px);
+      }
+      .fbot {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-top: 1.8rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        text-align: center;
+        font-size: 0.88rem;
+      }
+
+      @media (max-width: 900px) {
+        .hero .wrap {
+          flex-direction: column;
+        }
+        .story .wrap,
+        .story.flip .wrap {
+          grid-template-columns: 1fr;
+        }
+        .fgrid {
+          grid-template-columns: 1fr;
+        }
+        .fg {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="prog"><div id="bar"></div></div>
+    <button class="totop" id="top" aria-label="Kembali ke atas">
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <div id="loader">
+      <div class="spin"><i class="fa-solid fa-leaf"></i></div>
+      <h2>GreenEarth</h2>
+      <small>Memuat Ekosistem Hutan Borneo...</small>
+    </div>
+
+    <nav class="navbar" id="navbar">
+      <a href="index.html" class="brand"
+        ><i class="fa-solid fa-leaf"></i><span>Green Earth</span></a
+      >
+      <ul class="links">
+        <li>
+          <a href="index.html" class="nl"
+            ><i class="fa-solid fa-house"></i> Beranda</a
+          >
+        </li>
+        <li class="dd">
+          <a href="program.html" class="nl"
+            ><i class="fa-solid fa-cubes"></i><span>Program</span
+            ><i class="fa-solid fa-chevron-down arr"></i
+          ></a>
+          <div class="ddm">
+            <a href="program.html" class="ddi"
+              ><div class="ic"><i class="fa-solid fa-earth-asia"></i></div>
+              <div>
+                <b>3D Globe &amp; Ringkasan</b
+                ><small>Eksplorasi bumi 3D interaktif Kalimantan</small>
+              </div></a
+            >
+            <a href="program.html#carouselSection" class="ddi"
+              ><div class="ic"><i class="fa-solid fa-seedling"></i></div>
+              <div>
+                <b>Reboisasi Hutan Endemik</b
+                ><small>Pemulihan habitat satwa endemik Borneo</small>
+              </div></a
+            >
+            <a href="program.html#carouselSection" class="ddi"
+              ><div class="ic"><i class="fa-solid fa-camera"></i></div>
+              <div>
+                <b>Camera Trap Monitoring</b
+                ><small>Sensor gerak inframerah 24/7 non-invasif</small>
+              </div></a
+            >
+            <a href="program.html#carouselSection" class="ddi"
+              ><div class="ic"><i class="fa-solid fa-water"></i></div>
+              <div>
+                <b>Restorasi Lahan Gambut</b
+                ><small>Canal blocking &amp; rewetting anti karhutla</small>
+              </div></a
+            >
+            <a href="program.html#dampakSection" class="ddi"
+              ><div class="ic"><i class="fa-solid fa-chart-line"></i></div>
+              <div>
+                <b>Dampak Lingkungan</b
+                ><small>Metrik kenaikan keanekaragaman hayati</small>
+              </div></a
+            >
+          </div>
+        </li>
+        <li>
+          <a href="dampak.html" class="nl active"
+            ><i class="fa-solid fa-earth-asia"></i> Dampak</a
+          >
+        </li>
+        <li>
+          <a href="index.html#donasi" class="nl"
+            ><i class="fa-solid fa-hand-holding-heart"></i> Donasi</a
+          >
+        </li>
+        <li>
+          <a href="index.html#kontak" class="nl"
+            ><i class="fa-solid fa-envelope"></i> Kontak</a
+          >
+        </li>
+      </ul>
+      <div class="right">
+        <button
+          class="toggle"
+          id="themeToggle"
+          aria-label="Ganti mode gelap atau terang"
+        >
+          <div class="knob"><i class="fa-solid fa-sun" id="tIcon"></i></div>
+        </button>
+        <button class="burger" id="burger" aria-label="Buka navigasi">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+    <div class="mm" id="mm">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Beranda</a>
+      <a href="program.html"><i class="fa-solid fa-cubes"></i> Program</a>
+      <a href="dampak.html" class="active"
+        ><i class="fa-solid fa-earth-asia"></i> Dampak</a
+      >
+      <a href="index.html#donasi"
+        ><i class="fa-solid fa-hand-holding-heart"></i> Donasi</a
+      >
+      <a href="index.html#kontak"
+        ><i class="fa-solid fa-envelope"></i> Kontak</a
+      >
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-t rvl">
+          <h1>Selamatkan <br /><span class="accent">Paru-Paru Dunia.</span></h1>
+          <p>
+            Kebakaran hutan dan deforestasi memicu pemanasan global yang
+            ekstrem. Ribuan satwa liar kehilangan tempat tinggal. Saatnya kita
+            bertindak.
+          </p>
+          <a href="#datafakta" class="btn pulse"
+            >Pelajari Fakta <i class="fa-solid fa-arrow-down"></i
+          ></a>
+        </div>
+        <div class="hero-i rvr">
+          <div class="frame" id="heroFrame">
+            <img
+              src="/peta-satelit-nasa-tampilkan-sebaran-karbon-monoksida-di-indonesia-wilayah-merah-meluas1.jpg"
+              alt="NASA"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAKTA -->
+    <section class="facts" id="datafakta">
+      <div class="bg">
+        <img
+          class="lo"
+          src="/natural-view-of-mountains-covered-with-dew-mount-boga-located-in-east-kalimantan-free-photo (1).jpg"
+          alt=""
+        />
+        <img
+          class="do"
+          src="https://i0.wp.com/borneoadventure.com/v3/wp-content/uploads/2012/06/sabah-tabin-rhinoceros-hornbill-02.jpg?resize=800%2C532&quality=60&strip=all&ssl=1"
+          alt=""
+        />
+      </div>
+      <div class="wrap">
+        <div class="fhead rv">
+          <div class="tag">
+            <i class="fa-solid fa-chart-line"></i> Data Terbaru
+          </div>
+          <h2>Fakta di Lapangan</h2>
+          <p>Berikut ini adalah data dari beberapa tahun terakhir.</p>
+        </div>
+        <div class="fgrid rv d1">
+          <div class="fc">
+            <h3
+              class="counter"
+              data-target="40.8"
+              data-decimals="1"
+              data-suffix="M"
+            >
+              40.8M
+            </h3>
+            <p>Hektar Hutan Terdampak</p>
+          </div>
+          <div class="fc">
+            <h3
+              class="counter"
+              data-target="222"
+              data-decimals="0"
+              data-suffix="+"
+            >
+              222+
+            </h3>
+            <p>Spesies Satwa Terancam</p>
+          </div>
+          <div class="fc">
+            <h3
+              class="counter"
+              data-target="75"
+              data-decimals="0"
+              data-suffix="%"
+            >
+              75%
+            </h3>
+            <p>Target Konservasi</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PEMANASAN GLOBAL -->
+    <section class="story alt">
+      <div class="wrap">
+        <div class="pic rvl">
+          <div class="frame">
+            <div class="swiper swiperA">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <img
+                    src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
+                    alt="Pemanasan Global 1"
+                  />
+                </div>
+                <div class="swiper-slide">
+                  <img
+                    src="https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,f_auto,q_auto:best,w_640/v1634025439/01ha6pyjgjte399abxq2e9jhew.jpg"
+                    alt="Pemanasan Global 2"
+                  />
+                </div>
+                <div class="swiper-slide">
+                  <img
+                    src="https://statik.tempo.co/data/2026/07/31/id_1484791/1484791_720.jpg"
+                    alt="Pemanasan Global 3"
+                  />
+                </div>
+                <div class="swiper-slide">
+                  <img
+                    src="https://cdn.antaranews.com/cache/1200x800/2019/09/15/Dampak-Karhutla-Di-Kalsel-150919-Bay-1.jpg"
+                    alt="Pemanasan Global 4"
+                  />
+                </div>
+              </div>
+              <button class="nav-btn nav-prev" aria-label="Sebelumnya">
+                <i class="fa-solid fa-chevron-left"></i></button
+              ><button class="nav-btn nav-next" aria-label="Berikutnya">
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
+              <div class="swiper-pagination glass-pag"></div>
+            </div>
+          </div>
+        </div>
+        <div class="txt rvr">
+          <h2>
+            Pemanasan global <br /><span class="accent">yang mengancam</span>
+          </h2>
+          <div class="acc">
+            <div class="ac-i open">
+              <button class="ac-h">
+                Apa penyebabnya? <i class="fa-solid fa-chevron-down"></i>
+              </button>
+              <div class="ac-b">
+                <p>
+                  Pemanasan global sering disebabkan oleh aktivitas manusia
+                  seperti pembakaran bahan bakar fosil dan deforestasi yang
+                  menghasilkan emisi gas rumah kaca tinggi, terutama CO2, CH4,
+                  dan N2O.
+                </p>
+              </div>
+            </div>
+            <div class="ac-i">
+              <button class="ac-h">
+                Apa akibatnya? <i class="fa-solid fa-chevron-down"></i>
+              </button>
+              <div class="ac-b">
+                <p>
+                  Akibatnya, muncul perubahan iklim ekstrem seperti curah hujan
+                  tinggi, badai dahsyat, banjir, dan kekeringan.
+                </p>
+              </div>
+            </div>
+            <div class="ac-i">
+              <button class="ac-h">
+                Bagaimana di Kalimantan?
+                <i class="fa-solid fa-chevron-down"></i>
+              </button>
+              <div class="ac-b">
+                <p>
+                  Saat ini hutan di Kalimantan sedang mengalami deforestasi yang
+                  parah. Akibatnya, lahan mengering hingga memicu kebakaran
+                  hutan hebat yang merugikan kesehatan masyarakat melalui kabut
+                  asap tebal, memicu konflik regional dengan negara tetangga,
+                  serta mengancam habitat satwa liar dan keanekaragaman hayati.
+                </p>
+              </div>
+            </div>
+          </div>
+          <button class="btn" id="btnFakta">
+            <i class="fa-solid fa-circle-info"></i> Fakta unik
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SATWA LIAR -->
+    <section class="story flip">
+      <div class="wrap">
+        <div class="txt rvl">
+          <h2>
+            Apa dampaknya <br /><span class="accent">Kepada satwa liar?</span>
+          </h2>
+          <div class="acc">
+            <div class="ac-i open">
+              <button class="ac-h">
+                Kehilangan habitat <i class="fa-solid fa-chevron-down"></i>
+              </button>
+              <div class="ac-b">
+                <p>
+                  Selain pemanasan global, deforestasi juga mengancam habitat
+                  dan keberadaan satwa liar di hutan Kalimantan. Banyak spesies
+                  hewan yang kehilangan tempat tinggal dan sumber makanan akibat
+                  hilangnya lahan hutan. Tumbangnya pohon-pohon besar
+                  menghilangkan tempat bersarang dan berlindung alami satwa.
+                </p>
+              </div>
+            </div>
+            <div class="ac-i">
+              <button class="ac-h">
+                Terjebak api <i class="fa-solid fa-chevron-down"></i>
+              </button>
+              <div class="ac-b">
+                <p>
+                  Saat karhutla, satwa yang bergerak lambat (seperti orangutan,
+                  bekantan, kukang, dan trenggiling) sering terperangkap api
+                  hingga mati terpanggang atau luka parah.
+                </p>
+              </div>
+            </div>
+            <div class="ac-i">
+              <button class="ac-h">
+                Dampak kabut asap <i class="fa-solid fa-chevron-down"></i>
+              </button>
+              <div class="ac-b">
+                <p>
+                  Selain itu, kabut asap tebal memicu ISPA dan stres berat yang
+                  menurunkan sistem imun mereka secara drastis.
+                </p>
+              </div>
+            </div>
+          </div>
+          <button class="btn" id="btnSatwa">
+            <i class="fa-solid fa-circle-info"></i> Fakta unik
+          </button>
+        </div>
+        <div class="pic rvr">
+          <div class="frame">
+            <div class="swiper swiperB">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <img
+                    src="https://kukangku.id/wp-content/uploads/2020/08/BKSDA-Kalteng-Kukang-Kalimantan.jpeg"
+                    alt="Kukang Kalimantan"
+                  />
+                </div>
+                <div class="swiper-slide">
+                  <img
+                    src="https://media.istockphoto.com/id/2198002585/id/foto/betina-orangutan-dengan-anaknya-di-habitat-asli-taman-nasional-tanjung-puting-kalimantan.jpg?s=612x612&w=0&k=20&c=Y6jPKeQt9TLDUlNsUcMXhcOAHevXJIPUEls58GdgYDc="
+                    alt="Hutan Kalimantan"
+                  />
+                </div>
+                <div class="swiper-slide">
+                  <img
+                    src="https://static.dw.com/image/51043084_605.webp"
+                    alt="Satwa liar"
+                  />
+                </div>
+                <div class="swiper-slide">
+                  <img
+                    src="https://cdn.antaranews.com/cache/1200x800/2019/01/trenggiling_1.jpg"
+                    alt="Pemanasan Global"
+                  />
+                </div>
+              </div>
+              <button class="nav-btn nav-prev" aria-label="Sebelumnya">
+                <i class="fa-solid fa-chevron-left"></i></button
+              ><button class="nav-btn nav-next" aria-label="Berikutnya">
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
+              <div class="swiper-pagination glass-pag"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POPUP -->
+    <div class="modal" id="modal" aria-hidden="true">
+      <div
+        class="mcard"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="mJudul"
+      >
+        <button class="mx" id="mTutup" aria-label="Tutup">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <h3 id="mJudul">Fakta Pemanasan Global di Kalimantan</h3>
+        <ul>
+          <li>
+            <b>Kenaikan Suhu Permukaan.</b> Laju peningkatan suhu permukaan di
+            Kalimantan Timur tercatat mencapai 0,95 °C per dekade.
+          </li>
+          <li>
+            <b>Lonjakan Anomali Termal dan Karhutla.</b> Satelit NASA mendeteksi
+            lebih dari 5.000 piksel anomali termal pada pertengahan 2026, yang
+            menandai tingginya potensi kebakaran.
+          </li>
+          <li>
+            <b>Deforestasi dan Emisi Karbon.</b> Hutan di Kalimantan Timur
+            secara konsisten menjadi sumber emisi karbon (net carbon source),
+            melepaskan puluhan juta ton CO₂ ekuivalen per tahun akibat hilangnya
+            tutupan pohon.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="modal" id="modalSatwa" aria-hidden="true">
+      <div
+        class="mcard"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="mJudul2"
+      >
+        <button class="mx" aria-label="Tutup">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <h3 id="mJudul2">Fakta Unik Orangutan Borneo</h3>
+        <ul>
+          <li>
+            <b>Hilang lebih dari 100.000 ekor.</b> Studi di jurnal Current
+            Biology (2018) memperkirakan populasi orangutan Borneo berkurang
+            lebih dari 100.000 ekor antara 1999 dan 2015, hampir separuhnya.
+          </li>
+          <li>
+            <b>Status kritis.</b> IUCN menetapkan orangutan Borneo sebagai
+            spesies kritis (critically endangered) sejak 2016.
+          </li>
+          <li>
+            <b>Dihitung dari sarangnya.</b> Orangutan sulit dilihat langsung,
+            jadi peneliti menghitung sarang yang mereka buat dari dahan. Jumlah
+            sarang per kilometer jalur survei turun dari 22 menjadi 10 dalam
+            kurun yang sama.
+          </li>
+          <li>
+            <b>Banyak hilang dari hutan yang masih utuh.</b> Jumlah terbesar
+            yang hilang justru di area yang tetap berhutan, sehingga para
+            peneliti menduga perburuan dan pembunuhan ikut berperan selain
+            hilangnya habitat.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="wave">
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+        <path
+          d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80Z"
+          fill="var(--foot)"
+        />
+      </svg>
+    </div>
+    <footer class="footer">
+      <div class="fg">
+        <div>
+          <div class="fb">
+            <i class="fa-solid fa-leaf"></i><span>Green Earth</span>
+          </div>
+          <p style="max-width: 440px; line-height: 1.75">
+            Inisiatif pelestarian dan restorasi hutan tropis Kalimantan melalui
+            sains modern, pemantauan berbasis teknologi, serta kolaborasi erat
+            bersama masyarakat adat setempat.
+          </p>
+        </div>
+        <div>
+          <h4>Tautan Halaman</h4>
+          <ul>
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="program.html">Program &amp; Inovasi</a></li>
+            <li><a href="index.html#donasi">Donasi Aksi Nyata</a></li>
+            <li><a href="index.html#kontak">Hubungi Tim Kami</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Ikuti Perkembangan</h4>
+          <div class="soc">
+            <a href="#" aria-label="Instagram"
+              ><i class="fa-brands fa-instagram"></i></a
+            ><a href="#" aria-label="X"
+              ><i class="fa-brands fa-x-twitter"></i></a
+            ><a href="#" aria-label="YouTube"
+              ><i class="fa-brands fa-youtube"></i></a
+            ><a href="#" aria-label="Facebook"
+              ><i class="fa-brands fa-facebook-f"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+      <div class="fbot">
+        &copy; 2026 Green Earth Project. Bersama Menjaga Borneo untuk Generasi
+        Mendatang.
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+    <script>
+      (function () {
+        var $ = function (id) {
+          return document.getElementById(id);
+        };
+        var html = document.documentElement,
+          KEY = "greenearth-theme";
+
+        /* tema */
+        function icon(t) {
+          $("tIcon").className =
+            t === "dark" ? "fa-solid fa-moon" : "fa-solid fa-sun";
+        }
+        icon(html.getAttribute("data-theme"));
+        $("themeToggle").addEventListener("click", function () {
+          var t = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+          html.setAttribute("data-theme", t);
+          icon(t);
+          try {
+            localStorage.setItem(KEY, t);
+          } catch (e) {}
+        });
+
+        /* menu mobile */
+        var burger = $("burger"),
+          mm = $("mm");
+        function menu(open) {
+          burger.classList.toggle("open", open);
+          mm.classList.toggle("open", open);
+          document.body.style.overflow = open ? "hidden" : "";
+        }
+        burger.addEventListener("click", function () {
+          menu(!mm.classList.contains("open"));
+        });
+        mm.querySelectorAll("a").forEach(function (a) {
+          a.addEventListener("click", function () {
+            menu(false);
+          });
+        });
+
+        /* scroll: progress, navbar, tombol atas */
+        var nav = $("navbar"),
+          bar = $("bar"),
+          top = $("top");
+        function onScroll() {
+          var y = scrollY,
+            max = html.scrollHeight - innerHeight;
+          bar.style.width = (max > 0 ? (y / max) * 100 : 0) + "%";
+          nav.classList.toggle("scrolled", y > 40);
+          top.classList.toggle("on", y > 350);
+        }
+        addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+        top.addEventListener("click", function () {
+          scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        /* efek muncul saat scroll (ulang saat di-scroll balik) */
+        var io = new IntersectionObserver(
+          function (es) {
+            es.forEach(function (e) {
+              if (e.isIntersecting) e.target.classList.add("in");
+              else if (
+                e.boundingClientRect.top > innerHeight ||
+                e.boundingClientRect.bottom < 0
+              )
+                e.target.classList.remove("in");
+            });
+          },
+          { threshold: [0, 0.15] },
+        );
+        document.querySelectorAll(".rv,.rvl,.rvr").forEach(function (el) {
+          io.observe(el);
+        });
+
+        /* angka berjalan */
+        function count(el) {
+          var t = parseFloat(el.dataset.target),
+            d = parseInt(el.dataset.decimals || "0", 10),
+            s = el.dataset.suffix || "",
+            st = null;
+          (function step(ts) {
+            if (!st) st = ts;
+            var p = Math.min((ts - st) / 3000, 1),
+              e = 1 - Math.pow(1 - p, 3);
+            el.textContent = (e * t).toFixed(d) + s;
+            if (p < 1) requestAnimationFrame(step);
+          })(performance.now());
+        }
+        var co = new IntersectionObserver(
+          function (es) {
+            es.forEach(function (e) {
+              if (e.isIntersecting) {
+                count(e.target);
+                co.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.4 },
+        );
+        document.querySelectorAll(".counter").forEach(function (el) {
+          co.observe(el);
+        });
+
+        /* slider foto */
+        ["swiperA", "swiperB"].forEach(function (n) {
+          new Swiper("." + n, {
+            loop: true,
+            speed: 800,
+            autoplay: {
+              delay: 2000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            },
+            pagination: { el: "." + n + " .glass-pag", clickable: true },
+            navigation: {
+              prevEl: "." + n + " .nav-prev",
+              nextEl: "." + n + " .nav-next",
+            },
+          });
+        });
+
+        /* accordion: satu terbuka per kolom */
+        function fixAcc() {
+          document.querySelectorAll(".ac-i.open .ac-b").forEach(function (b) {
+            b.style.maxHeight = b.scrollHeight + "px";
+          });
+        }
+        document.querySelectorAll(".ac-i").forEach(function (item) {
+          var b = item.querySelector(".ac-b");
+          item.querySelector(".ac-h").addEventListener("click", function () {
+            var buka = !item.classList.contains("open");
+            item.parentNode
+              .querySelectorAll(".ac-i.open")
+              .forEach(function (o) {
+                o.classList.remove("open");
+                o.querySelector(".ac-b").style.maxHeight = "0";
+              });
+            if (buka) {
+              item.classList.add("open");
+              b.style.maxHeight = b.scrollHeight + "px";
+            }
+          });
+        });
+        fixAcc();
+        addEventListener("load", fixAcc);
+        addEventListener("resize", fixAcc);
+
+        /* gambar hero miring mengikuti kursor */
+        var hf = $("heroFrame");
+        if (hf && matchMedia("(hover:hover)").matches) {
+          var wrapH = hf.parentNode;
+          wrapH.addEventListener("mousemove", function (e) {
+            var r = hf.getBoundingClientRect(),
+              x = (e.clientX - r.left) / r.width - 0.5,
+              y = (e.clientY - r.top) / r.height - 0.5;
+            hf.style.transform =
+              "perspective(900px) rotateY(" +
+              x * 8 +
+              "deg) rotateX(" +
+              -y * 8 +
+              "deg)";
+          });
+          wrapH.addEventListener("mouseleave", function () {
+            hf.style.transform = "";
+          });
+        }
+
+        /* popup */
+        function popup(tombolId, modalId) {
+          var m = $(modalId);
+          function set(open) {
+            m.classList.toggle("on", open);
+            m.setAttribute("aria-hidden", open ? "false" : "true");
+            document.body.style.overflow = open ? "hidden" : "";
+          }
+          $(tombolId).addEventListener("click", function () {
+            set(true);
+          });
+          m.querySelector(".mx").addEventListener("click", function () {
+            set(false);
+          });
+          m.addEventListener("click", function (e) {
+            if (e.target === m) set(false);
+          });
+          document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") set(false);
+          });
+        }
+        popup("btnFakta", "modal");
+        popup("btnSatwa", "modalSatwa");
+
+        /* loading */
+        function hide() {
+          var l = $("loader");
+          if (l) {
+            l.classList.add("hide");
+            setTimeout(function () {
+              l.style.display = "none";
+            }, 700);
+          }
+        }
+        addEventListener("load", function () {
+          setTimeout(hide, 800);
+        });
+        setTimeout(hide, 4000);
+      })();
+    </script>
+  </body>
+</html>
